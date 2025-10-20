@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Генератор паролей</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .password { background: #f0f0f0; padding: 10px; margin: 10px 0; font-weight: bold; }
+        .history { margin-top: 30px; }
+        .history-item { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <h1>Генератор паролей</h1>
+
+    <form method="POST">
+        <label>
+            <input type="radio" name="complexity" value="low" checked> Низкая (только строчные буквы, 8 символов)
+        </label><br>
+        <label>
+            <input type="radio" name="complexity" value="medium"> Средняя (буквы + цифры, 10 символов)
+        </label><br>
+        <label>
+            <input type="radio" name="complexity" value="high"> Высокая (буквы + цифры + спецсимволы, 12 символов)
+        </label><br><br>
+        <button type="submit">Сгенерировать пароль</button>
+    </form>
+
+    {% if password %}
+        <div class="password">Ваш пароль: {{ password }}</div>
+    {% endif %}
+
+    <div class="history">
+        <h2>История ваших паролей:</h2>
+        {% if history %}
+            {% for item in history %}
+                <div class="history-item">
+                    <strong>{{ item.complexity.title() }}:</strong> {{ item.password }}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>вы ещё не генерировали пароли.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
