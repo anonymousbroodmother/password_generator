@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Генератор паролей{% endblock %}
+{% block header %}Генератор паролей{% endblock %}
+
+{% block content %}
+<h2>Создать новый пароль</h2>
+<form method="POST">
+    <p>
+        <label>Сайт / Сервис:<br>
+            <input type="text" name="site" placeholder="Например: gmail.com" required>
+        </label>
+    </p>
+    <p>
+        <label>Ваш логин или email:<br>
+            <input type="text" name="login" placeholder="user@example.com" required>
+        </label>
+    </p>
+    <p>
+        <label>
+            <input type="radio" name="complexity" value="low" checked> Низкая (8 строчных букв)
+        </label><br>
+        <label>
+            <input type="radio" name="complexity" value="medium"> Средняя (10 букв + цифры)
+        </label><br>
+        <label>
+            <input type="radio" name="complexity" value="high"> Высокая (12 символов + спецсимволы)
+        </label>
+    </p>
+    <button type="submit">Сгенерировать и сохранить</button>
+</form>
+
+<hr>
+
+<h2>Ваши сохранённые пароли</h2>
+{% if history %}
+    {% for p in history %}
+    <div class="password-item">
+        <strong>{{ p.site }}</strong><br>
+        Логин: {{ p.login }}<br>
+        Пароль: <span style="font-family: monospace;">{{ p.password }}</span><br>
+        Сложность: {{ p.complexity }}
+    </div>
+    {% endfor %}
+{% else %}
+    <p>Вы ещё не сохранили ни одного пароля.</p>
+{% endif %}
+{% endblock %}
+{% for p in history %}
+<div class="password-item">
+    <strong>{{ p.site }}</strong><br>
+    Логин: {{ p.login }}<br>
+    Пароль: <span style="font-family: monospace;">{{ p.password }}</span><br>
+    Сложность: {{ p.complexity }}, длина: {{ p.length }}
+</div>
+{% endfor %}
+<p>
+    <label>Длина пароля (4–64):<br>
+        <input type="number" name="length" min="4" max="64" value="12" required>
+    </label>
+</p>
+
+<p>
+    <label>
+        <input type="radio" name="complexity" value="low"> Низкая (только строчные буквы)
+    </label><br>
+    <label>
+        <input type="radio" name="complexity" value="medium"> Средняя (буквы + цифры)
+    </label><br>
+    <label>
+        <input type="radio" name="complexity" value="high" checked> Высокая (буквы + цифры + спецсимволы)
+    </label>
+</p>
